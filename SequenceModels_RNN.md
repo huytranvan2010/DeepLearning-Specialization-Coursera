@@ -1,3 +1,5 @@
+\usepackage[hybrid]{markdown}
+
 Bài này sẽ viết lại những gì học được về Course "Sequence Models" week1 trên Coursera
 
 # 1. Why sequence models? Tại sao là mô mình chuỗi
