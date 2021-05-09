@@ -37,7 +37,8 @@ Tx, Ty trong các bài toán có thể khác nhau không nhất thiết phải b
 
 Mỗi example được kí hiệu là X(i), do đó từ ở vị trí `t` trong example `i` được kí hiệu là X(i)<t> $X^{(i)<t>}$, độ dài của example X(i) là $T_{x}^{(i)}$.
 
-Tương tự như vậy ta cũng có cho output $X^{(i)<t>}$, $T_{y}^{(i)}$.
+Tương tự như vậy ta cũng có cho output $X^{(i)<t>}$, $T_{y}^{(i)}$. ![image](https://user-images.githubusercontent.com/67550140/117560258-4bf7ce80-b0b6-11eb-808a-489fcfe2c91b.png)
+
 ```python 
     $$T_{y}^{(i)}$$  
 ```
