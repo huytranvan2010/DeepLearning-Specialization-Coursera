@@ -47,3 +47,51 @@ Tương tự như vậy ta cũng có cho output $X^{(i)<t>}$, $T_{y}^{(i)}$.
 
 Một cách để xây dựng `vocabulary` là lấy từ training set 10000 từ hay gặp nhất (the most occcuring words). Sau đo sử dụng `one-hot vector` để biểu diễn các từ. Mỗi từ X<t> được biểu diễn biễn bởi one-hot vetor có `dimension = 10000`.
 ![9](images/SequenceModels_RNN/whymodel/9.png)
+
+# 3. Recurrent Neural Network
+## Vì sao không phải là mạng Neural Network thông thường
+![10](images/SequenceModels_RNN/whymodel/10.png)
+
+Như bài trước input có 9 units tướng ứng với 9 words. Hình bên trên biểu diễn mạng NN thông thường. Tuy nhiên dường như mạng NN thường không hoạt động tốt đối với bài toán sequence models. Có 2 vấn đề chính như sau:
+- Inputs và outputs có thể có các kích thước khác nhau đối với các examples và labels khác nhau. Nếu sử dụng padding để cho input hoặc output có cùng độ dài đối với các dataset khác nhau nhưng đây cũng không phải là lựa chọn tốt.
+- Cấu trúc mạng bên trên không chia sẻ các features học được ở các vị trí khác nhau. Ví dụ một từ ở vị trí này có thể liên quan đến 1 từ ở vị trí khác. Nếu sử dụng mạng NN thông thường thì không làm được như vậy. 
+
+Lựa chọn biểu diễn tốt cũng làm giảm số lượng parameters. Mỗi từ được biểu diễn bằng one-hot vector có dimensions 10000. Do đó input layer rất lớn, weights matrix cho layer 1 rất lớn. Để tránh tất cả các nhược điểm trên mạng RNN đã được ra đời.
+
+## Recurrent Neural Networks
+- Các câu được đọc từ trái qua phải, ví dụ từ đầu tiên đọc được là X<1>. Cho từ X<1> vào neural network layer. Đó là hidden layer of the first neural network. Đầu ra cố gắng dự đoán nó có phải là một phần của tên người hay không. 
+- Mạng RNN tiếp tục đọc đến chữ thứ 2 X<2>, thay vì dự đoán y<2> chỉ dựa vào X<2> nó còn sử dụng thông tin từ timestep 1 để làm đầu vào input. Cụ thể hơn, `activation value` từ timestep 1 được đưa vào timestep 2. 
+- Cứ tương tự như vậy cho đến last timestep `Tx` với từ X<Tx> và output là y<Ty>. Ở đây Tx và Ty bằng nhau. (Thực tế Tx, Ty có thể khác nhau)
+- Để thuận tiện hơn sau này ta cũng thêm activation at zero timestep `a<0>' để đưa vào input của timestep 1. `a<0>` thường là vector of zeros.
+![11](images/SequenceModels_RNN/whymodel/11.png)
+
+Mạng RNN đi từ trái sang phải của dữ liệu. Các parameters nó sử dụng tại mỗi timestep được dùng chung (share) với nhau. 
+- Parameters kiểm soát kết nối từ X^{<1>} đến hidden layer là $$ W_{ax} $$, tại các timestep khác cũng vậy
+- Các kết nối ngang (horizontal connection) được kiểm soát bởi parameters $$ W_{aa} $$
+- Tương tự như vậy $$ W_{ya} $$ kiểm soát kết nối đến prediction tại các tiemstep
+
+**Chú ý**: Khi dự đoán $$ \hat{y}^{<3>} $$ không chỉ lấy thông tin từ $$ X^{<3>} $$ mà còn lấy thông tin từ $$ X^{<1>} $$, $$ X^{<2>} $$. Đây cũng có thể coi là nhược điểm của RNN do nó chỉ lấy được thông tin trước đo, còn thôn tin phía sau (từ phía sau) lại không được sử dụng để dự đoán từ hiện tại. Ví dụ khi dự đoán $$ X^{<3>} $$ không sử dụng được thông tin từ $$ X^{<4>} $$...
+![12](images/SequenceModels_RNN/whymodel/12.png)
+**Ví dụ**: Đối với câu `He said, Teddy Roosevelt was a great President`.
+Nếu ta biết được thông tin từ phía sau `Roosevelt` thì có thể dễ dàng xác định được `Teddy` là một phần của tên người (hai từ phía trước có rất ít thông tin)
+Đối với câu `He said, Teddy bears are on sale!`. Nhìn vào hai câu này, nếu chỉ biết 2 từ đầu tiên thì gần như không phân biệt được từ tiếp theo 
+
+Vấn đề này sẽ được giải quyết với Bi-directional Recurrent Neural Network (BRNN).
+
+## Forward propagation
+![13](images/SequenceModels_RNN/whymodel/13.png)
+
+Thường cho $$ a^{<0>}=\vec{0} $$.
+Forward propagation
+![14](images/SequenceModels_RNN/whymodel/14.png)
+Wax: chỉ số thứ 2 `x` có nghĩa rằng Wax được nhân với x, chỉ số đàu tiên `a` chỉ đại lượng được tính.
+
+**Chú ý**: activation functon để tính  $$ a^{<1>} $$ có thể là tanh/Relu. Activation function để tính $$ \hat{y}^{<1>} $$ có thể là `sigmoid` (2 classes) hay `softmax` (nhiều hơn 2 classes). Đối với bài toán `name entity recognition` activation function để tính output là `sigmoid`.
+
+Công thức tổng quát hơn để tính activation $$ a<t> $$ và \hat{y}^{<t>}
+![15](images/SequenceModels_RNN/whymodel/15.png)
+
+Để đơng gian hóa kí hiệu này chúng ta có thể thực hiện như sau. 
+![15](images/SequenceModels_RNN/whymodel/15.png)
+Ví dụ a là vector 100 dimensions, X là vector 10000 dimensions. Khi đó ma trận Waa có size là  (100, 100)
+, ma trận Wax có size là (100, 1000). Do vậy có thể stack 2 ma trận này theo hàng ngang được ma trận Wa. a<t-1> và x<t> được xếp theo chiều dọc với nhau do a<t-1> có size (100, 1), x<t> có size là (10000, 1)
