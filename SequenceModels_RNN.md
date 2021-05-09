@@ -37,5 +37,5 @@ Mỗi example được kí hiệu là X(i), do đó từ ở vị trí `t` trong
 
 Tương tự như vậy ta cũng có cho output $X^{(i)<t>}$, $T_{y}^{(i)}$.
 ```python 
-    $T_{y}^{(i)}$  
+    $$T_{y}^{(i)}$$  
 ```
