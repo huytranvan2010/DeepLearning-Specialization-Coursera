@@ -46,4 +46,4 @@ Tương tự như vậy ta cũng có cho output $X^{(i)<t>}$, $T_{y}^{(i)}$.
 Đối với các ứng dụng thực tế `vocab_size` thường từ 30000 đến 50000. Tuy nhiên có một số nơi sử dụng đến hàng triệu từ. 
 
 Một cách để xây dựng `vocabulary` là lấy từ training set 10000 từ hay gặp nhất (the most occcuring words). Sau đo sử dụng `one-hot vector` để biểu diễn các từ. Mỗi từ X<t> được biểu diễn biễn bởi one-hot vetor có `dimension = 10000`.
-![9](images/SequenceModels_RNN/whymodel/9.png =250x250)
+![9](images/SequenceModels_RNN/whymodel/9.png)
