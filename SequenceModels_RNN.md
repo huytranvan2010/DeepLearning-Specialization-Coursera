@@ -22,6 +22,7 @@ Sequence models là một trong các phần hấp dẫn nhất của Deep Learni
 Tất cả các bài toán trên đầu có thể giải quyết như supervised learning (học giám sát). Nhận thấy example X và label Y có thể là các loại sequence khác nhau, độ dài có thể khác nhau, có trường hợp chỉ X hoặc Y là sequence
 
 # 2. Notation - Ký hiệu
+## Motivatiing example
 Cùng xem ví dụ về `Name entity recognition`: tìm tên người ở trong câu (phụ vụ cho mục đích tìm kiếm, sau này mở rộng ra có thể tìm kiểm tên quốc gian, tên công ty, thời gian, địa điểm và nhiều loại khác nữa).
 
 Cho đầu vào x: `Harry Potter and Hermione Granger invented a new spell`
@@ -37,8 +38,12 @@ Tx, Ty trong các bài toán có thể khác nhau không nhất thiết phải b
 
 Mỗi example được kí hiệu là X(i), do đó từ ở vị trí `t` trong example `i` được kí hiệu là X(i)<t> $X^{(i)<t>}$, độ dài của example X(i) là $T_{x}^{(i)}$.
 
-Tương tự như vậy ta cũng có cho output $X^{(i)<t>}$, $T_{y}^{(i)}$. ![image](https://user-images.githubusercontent.com/67550140/117560258-4bf7ce80-b0b6-11eb-808a-489fcfe2c91b.png)
+Tương tự như vậy ta cũng có cho output $X^{(i)<t>}$, $T_{y}^{(i)}$.
+![8](images/SequenceModels_RNN/whymodel/8.png)
 
-```python 
-    $$T_{y}^{(i)}$$  
-```
+## Representing words - Biểu diễn các từ
+Để biễn diễn word đầu tiên sẽ xây dựng `vocabulary` - list of the words. Ví dụ có covabulary có size = 10000 chẳng hạn.
+Đối với các ứng dụng thực tế `vocab_size` thường từ 30000 đến 50000. Tuy nhiên có một số nơi sử dụng đến hàng triệu từ. 
+
+Một cách để xây dựng `vocabulary` là lấy từ training set 10000 từ hay gặp nhất (the most occcuring words). Sau đo sử dụng `one-hot vector` để biểu diễn các từ. Mỗi từ X<t> được biểu diễn biễn bởi one-hot vetor có `dimension = 10000`.
+![9](images/SequenceModels_RNN/whymodel/9.png)
