@@ -33,4 +33,6 @@ Tx - độ dài của chuỗi đầu vào (legth of the input sequence), Tx = 9
 Ty - độ dài của chuỗi đầu ra, Ty = 9
 Tx, Ty trong các bài toán có thể khác nhau không nhất thiết phải bằng nhau.
 
-Mỗi example được kí hiệu là X(i), do đó từ ở vị trí `t` trong example `i` được kí hiệu là X(i)<t> $X^{(i)<t>}$
+Mỗi example được kí hiệu là X(i), do đó từ ở vị trí `t` trong example `i` được kí hiệu là X(i)<t> $X^{(i)<t>}$, độ dài của example X(i) là $T_{x}^{(i)}$.
+
+Tương tự như vậy ta cũng có cho output $X^{(i)<t>}$, $T_{y}^{(i)}$.
