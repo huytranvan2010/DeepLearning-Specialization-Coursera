@@ -18,3 +18,19 @@ Sequence models là một trong các phần hấp dẫn nhất của Deep Learni
 ![7](images/SequenceModels_RNN/whymodel/7.png)
 
 Tất cả các bài toán trên đầu có thể giải quyết như supervised learning (học giám sát). Nhận thấy example X và label Y có thể là các loại sequence khác nhau, độ dài có thể khác nhau, có trường hợp chỉ X hoặc Y là sequence
+
+# 2. Notation - Ký hiệu
+Cùng xem ví dụ về `Name entity recognition`: tìm tên người ở trong câu (phụ vụ cho mục đích tìm kiếm, sau này mở rộng ra có thể tìm kiểm tên quốc gian, tên công ty, thời gian, địa điểm và nhiều loại khác nữa).
+
+Cho đầu vào x: `Harry Potter and Hermione Granger invented a new spell`
+Đầu ra y: `1 1 0 1 1 0 0 0 0`
+
+Đầu ra sẽ chỉ cho chúng ta biết vị trí của từ là một phần của tên người (các vị trí có số 1). Thực tế thì cách biểu diễn output Y như này không phải là cách biểu diễn tốt nhất, có các cách biểu diễn khác còn cho chúng ta biết khi nào bắt đầu tên người và khi nào kết thúc tên người trong câu. Ví dụ bắt đầu bằng `Harry` và kết thúc là `Potter`, bắt đầu bằng `Hermione` và kết thúc bằng `Granger`.
+
+Input là sequence với 9 từ, chúng ta có 9 features tương ứng với 9 từ này. Sử dụng các index trong angle bracket `<i>` để chỉ vị trí các từ trong câu X<1> ... X<9>. Tương tự cới output chúng ta cũng có Y<1> ... Y<9>.
+
+Tx - độ dài của chuỗi đầu vào (legth of the input sequence), Tx = 9
+Ty - độ dài của chuỗi đầu ra, Ty = 9
+Tx, Ty trong các bài toán có thể khác nhau không nhất thiết phải bằng nhau.
+
+Mỗi example được kí hiệu là X(i), do đó từ ở vị trí `t` trong example `i` được kí hiệu là X(i)<t> $X^{(i)<t>}$
