@@ -98,8 +98,17 @@ Ví dụ a là vector 100 dimensions, X là vector 10000 dimensions. Khi đó ma
 
 # 4. Backpropagation through a time
 
+# 5. Different types of RNN
 
-# . Long Short Tẻrm Memory (LSTM)
+# 6. Language model and sequence generation
+
+# 7. Sampling novel sequences
+
+# 8. Vanishing gradients with RNNs
+
+# 9. Gated Recurrent Unit (GRU)
+
+# 10. Long Short Tẻrm Memory (LSTM)
 Trong bài trước đã học về GRU (Gated recurrent unit) cho phép chúng ta có khoảng kết nối dài (tránh được vanishing gradient). Cũng có một loại unit khác làm điều này cũng rất tốt đó là LSTM unit. LSTM còn mạnh mẽ hơn cả GRU.
 ![17](images/SequenceModels_RNN/whymodel/17.png) 
 $$c^{t}$$ tidle là ứng viên để thay thế $$ c^{t} $$. Gamma u sẽ quyết định thay thế hay không. 
@@ -127,3 +136,24 @@ Có một số biến thể khác của LSTM, ví dụ thay vì các gate phụ 
 Ngày nya mọi người hay sử dụng LSTM tuy nhiên gần đây một số nhóm có sử dụng GRU và đạt được những kết quả rất tốt.
 
 **Kết luận**: Từ mạng RNN cơ bản đầu vào là từ ở timestep <t> và information ở trước đó để dự đoán đầu ra, GRU và LTSM có bổ sung thêm memory cell để có thể lưu giá trị từ trước đó giúp tránh được vanishing gradient và giữ được ảnh hưởng xa của các từ (far dependencies).
+
+# 11. Bidirectional RNN
+Trong các bài trước chúng ta đã thấy các building block của mạng RNN cơ bản và GRU, LSTM. Còn 2 ý tưởng có thể làm cho mạng mạnh mẽ hơn:
+- Bidirectional RNNs
+- Deep RNNs
+
+Để hiểu rõ hơn cùng xem mạng RNN với bài toán name entity recognition (tìm từ nào là một phần của tên người).
+![23](images/SequenceModels_RNN/whymodel/23.png)
+Nhìn vào ví dụ trên để xác định `Teddy` có phải là một phần của tên người hay không, việc nhìn vào 2 từ phía trước là không đủ. Đây chính là **unidirectional or forward directional RNN**. Nhận xét này đều đúng cho dù unit vuông là RNN, GRU hay LSTM. Tất cả các blocks này đều theo forward direction. Vậy `Bidirectional RNN` làm gì?
+
+Cùng xem ví dụ câu có 4 từ x<1>, x<2>, x<3>, x<4> và các forward recurrent components (các thành phần lặp lại theo chiều xuôi - có mũi tên trên đầu activation để chỉ chiều).
+
+![24](images/SequenceModels_RNN/whymodel/24.png)
+
+Sau đó chúng ta sẽ thêm vào `backwrad recurrent layer` với chiều mũi tên ngược lại.
+![25](images/SequenceModels_RNN/whymodel/25.png)
+
+Backward connections sẽ kết nối các backward hiddenr layer the chiều ngược lại. Network này xác định Acyclic graph. 
+
+
+
