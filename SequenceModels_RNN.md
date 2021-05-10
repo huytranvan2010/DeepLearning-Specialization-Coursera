@@ -92,6 +92,38 @@ Công thức tổng quát hơn để tính activation $$ a<t> $$ và \hat{y}^{<t
 ![15](images/SequenceModels_RNN/whymodel/15.png)
 
 Để đơng gian hóa kí hiệu này chúng ta có thể thực hiện như sau. 
-![15](images/SequenceModels_RNN/whymodel/15.png)
+![16](images/SequenceModels_RNN/whymodel/16.png)
 Ví dụ a là vector 100 dimensions, X là vector 10000 dimensions. Khi đó ma trận Waa có size là  (100, 100)
 , ma trận Wax có size là (100, 1000). Do vậy có thể stack 2 ma trận này theo hàng ngang được ma trận Wa. a<t-1> và x<t> được xếp theo chiều dọc với nhau do a<t-1> có size (100, 1), x<t> có size là (10000, 1)
+
+# 4. Backpropagation through a time
+
+
+# . Long Short Tẻrm Memory (LSTM)
+Trong bài trước đã học về GRU (Gated recurrent unit) cho phép chúng ta có khoảng kết nối dài (tránh được vanishing gradient). Cũng có một loại unit khác làm điều này cũng rất tốt đó là LSTM unit. LSTM còn mạnh mẽ hơn cả GRU.
+![17](images/SequenceModels_RNN/whymodel/17.png) 
+$$c^{t}$$ tidle là ứng viên để thay thế $$ c^{t} $$. Gamma u sẽ quyết định thay thế hay không. 
+
+LTMS mạnh mẽ hơn GRU một chút là và phiên bản tổng quát hơn GRU. GRU chỉ có Gamma u kiểm soát việc thay thế, trong LSTM có 2 đại lượng là Gamma u và Gamma f (forget) kiểm soát việc này. Ở LSTM này có thêm Gamma o (output)
+![18](images/SequenceModels_RNN/whymodel/18.png)
+LSTM có 3 gates (update, forget và output) phức tạp hơn so với GRU.  
+![19](images/SequenceModels_RNN/whymodel/19.png)
+Đây là các phương trình cho một unit của LSTM, nhớ rằng output ở mỗi unit y<t> được xác định từ a<t> nhé (ở đây không ghi nhưng mình cần hiểu như vậy).
+
+Đây là sơ đồ kết nối trong một mạng LSTM hoàn chỉnh.
+![20](images/SequenceModels_RNN/whymodel/20.png)
+
+Hãy cùng xem kết nối phía trên được tô đỏ.
+![21](images/SequenceModels_RNN/whymodel/21.png)
+Đường màu đỏ này thể hiện các `update gate` và `forget gate` (`output gate` không có vì output gate quản lý đầu ra ở mỗi unit thôi. Nhìn vào hình ban đầu là thấy). Do đó nếu thực hiện một cách hợp lý hoàn toàn có thể cho gía trị c<3> lặp lại giá trị c<0> được. Đây chính là lý do khiến LSTM và GRU nhớ rất tốt giá trị trong thời gian dài - lưu giá trị trong memory cell (có thể tránh được vanishing gradient và có được sự ảnh hưởng dài - các từ ở xa có thể ảnh hưởng đến các từ khác).
+
+Có một số biến thể khác của LSTM, ví dụ thay vì các gate phụ thuộc vào mỗi a<t-1> và x<t>, có thể cho các gates phụ thuộc thêm vào  c<t-1> - previous memory cell value và người ta gọi đó là `peephole connection`. `Peepphole connection` có thể được đưa vào tính toán cả 3 gates.
+![22](images/SequenceModels_RNN/whymodel/22.png)
+
+**Chú ý**:
+- LSTM phức tạp hơn, có 3 gates nhưng mạnh mẽ hơn
+- GRU có 2 gates, đơn giản hơn và dễ xây dựng biggef network hơn
+
+Ngày nya mọi người hay sử dụng LSTM tuy nhiên gần đây một số nhóm có sử dụng GRU và đạt được những kết quả rất tốt.
+
+**Kết luận**: Từ mạng RNN cơ bản đầu vào là từ ở timestep <t> và information ở trước đó để dự đoán đầu ra, GRU và LTSM có bổ sung thêm memory cell để có thể lưu giá trị từ trước đó giúp tránh được vanishing gradient và giữ được ảnh hưởng xa của các từ (far dependencies).
