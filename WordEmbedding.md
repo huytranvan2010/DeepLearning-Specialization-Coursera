@@ -69,7 +69,7 @@ Example là các cặp (context word, target word), label là `Positive/negative
 
 ![8](images/WordEmbedding/8.png)
 
-** Negative Sampling**
+**Negative Sampling**
 
 Có tên `Negative Sampling` do ứng với mỗi `postive example` từ câu lại đi tìm các cặp `negative example` từ vocabulary. Algorithm này giảm được việc tính toán ở softmax layer, bây giờ chuyển qua binary classification, mỗi lần chỉ thực hiện một số phép tính thay vì 10000 như softmax layer của `Skip-grams model` gốc.
 ![9](images/WordEmbedding/9.png)
