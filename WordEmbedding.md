@@ -40,7 +40,12 @@ Trong bài toán `language model` dự đoán từ tiếp theo khi biết các t
 ## Word2vec
 Word2vec là một algorithm đơn giản và hiệu quả để học `word embedding`. 
 * **Skip-grams**
+
 Mục đấy lấy ngẫu nhiên các `context word` trong câu và chọn ngẫu nhiên các `target word` ở trong một khoảng cách  nào đó. Mục đích của việc này là để xây dựng bài toán supervised learning. Khi test, thì cho `context word` và đi dự đoán target word ở trong khoảng đó.
 
 Đây là vấn đề khó, bài toán có thế có rất nhiều dữ liệu, tuy nhiên cần nhấn mạnh rằng thông qua việc này chúng ta có thể học được `word embedding`.
 ![5](images/WordEmbedding/5.png)
+
+* **Model**
+Đây chính là `Skip-grams model` do nó dự đoán `target word` sau `context word` mà không để ý đến các từ còn lại đứng bên trái hay bên phải.
+![6](images/WordEmbedding/6.png)
