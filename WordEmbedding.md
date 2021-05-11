@@ -39,8 +39,8 @@ Trong bài toán `language model` dự đoán từ tiếp theo khi biết các t
 
 ## Word2vec
 Word2vec là một algorithm đơn giản và hiệu quả để học `word embedding`. Word2vec có 2 model:
-    - **Word2vec Skip-grams model**
-    - **Word2vec CBOW** (context của model này là casctuwf 2 bên, đi dự đoán the middle word)
+** **Word2vec Skip-grams model**
+** **Word2vec CBOW** (context của model này là casctuwf 2 bên, đi dự đoán the middle word)
 
 * **Skip-grams**
 
