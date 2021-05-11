@@ -47,5 +47,6 @@ Mục đấy lấy ngẫu nhiên các `context word` trong câu và chọn ngẫ
 ![5](images/WordEmbedding/5.png)
 
 * **Model**
+
 Đây chính là `Skip-grams model` do nó dự đoán `target word` sau `context word` mà không để ý đến các từ còn lại đứng bên trái hay bên phải.
 ![6](images/WordEmbedding/6.png)
