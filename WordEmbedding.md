@@ -76,3 +76,32 @@ Có tên `Negative Sampling` do ứng với mỗi `postive example` từ câu l�
 
 Một vấn đề của `Negative sampling` là cách chọn `negative example` như nào cho phù hợp. Không thể chọn uniform randomly được vì có những từ hay xuất hiện sẽ ảnh hưởng đến model của mình. Các nhà nghiên cứu có đưa ra công thức thực hiện xác định xác suất lấy các từ trong vocabulary.
 ![10](images/WordEmbedding/10.png)
+
+## Glove Word vector
+Cái này không được sử dụng nhiều như Word2vec nhưng do sự đơn giản nên vẫn có một số nhóm hay dùng. 
+![11](images/WordEmbedding/11.png)
+
+
+![12](images/WordEmbedding/12.png)
+
+# Applications Using word embedding
+## Sentiment classification - phân loại thái độ 
+
+Sentiment classification: nhìn vào một đoạn text rồi phân biệt đó là nội dung tích cực hoặc tiêu cực. Một vấn đề ới sentiment classification là không có đủ label training set. Tuy nhiên với `word embedding` chúng ta có thể xây dựng bộ phân loại tốt được ngay cả khi có ít training set. 
+
+Nếu xây được bộ phân loại này có thể đánh giá được các comments để lại với một dịch vụ nào đó, sau đó có hướng điều chỉnh làm dịch vụ tốt hơn. 
+![13](images/WordEmbedding/13.png)
+
+### Simple model
+
+Có thể dùng mô hình đơn giản như sau cho bài toán phân loại thái độ.
+![14](images/WordEmbedding/14.png)
+`Word embedding` được học từ tập dữ liệu rất lớn. Ở trong mô hình này ma trận E đã biết rồi.s
+Tuy nhiên mô hình này không tính thứ tự của các từ mà lấy trung bình hoặc tổng các vector để đưa vào softmaxx layer, điều này có thể gây ra một số sai sót không muốn như ví dụ trong hình. Nếu lấy trung bình có rất nhiều từ `good` nhưng thực ra câu này lại là `negative`.
+
+Thử ứng dụng mô hình RNN để giải quyết bào toán setiment classification xem sao.
+
+### RNN for sentiment classification
+![15](images/WordEmbedding/15.png)
+
+## Debiasing Word Embeddings
