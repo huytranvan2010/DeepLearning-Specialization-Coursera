@@ -68,3 +68,8 @@ Bài trước đã học về `Skip-grams model` cho phép chúng ta xây dựng
 Example là các cặp (context word, target word), label là `Positive/negative`. `Context word` được chọn ngẫu nhiên trong câu, đối với `Positive example` target word được chọn ngẫu nhiên trong câu đó trong khoảng cách vài từ cảu context word. Đối với `negative example` targer word được chọn ngẫu nhiên từ `vocabulary` `k = 5 - 10` for the small dataset, `k = 2 - 5` for the large dataset. 
 
 ![8](images/WordEmbedding/8.png)
+
+** Negative Sampling**
+
+Có tên `Negative Sampling` do ứng với mỗi `postive example` từ câu lại đi tìm các cặp `negative example` từ vocabulary. Algorithm này giảm được việc tính toán ở softmax layer, bây giờ chuyển qua binary classification, mỗi lần chỉ thực hiện một số phép tính thay vì 10000 như softmax layer của `Skip-grams model` gốc.
+![9](images/WordEmbedding/9.png)
