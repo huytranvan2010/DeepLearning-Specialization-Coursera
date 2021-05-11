@@ -24,6 +24,6 @@ Có một cách để nhớ kích thước của `embedding matrix`: giống bê
 
 Trong bài sau chúng ta sẽ tìm hiểu các học `embedding matrix`, đầu tiên sẽ khởi tạo nó randomly.
 
-<font color='b'>
+<font color='b'>:
 **Ghi nhớ**: Các cột của  embedding matrix chứa các embedding của các từ trong vocabulary.
 
