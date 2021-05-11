@@ -31,3 +31,13 @@ Beam search có tham số `Beam width B` (số option chọn ở mỗi bước (
 Cứ làm như vậy đến cuối sẽ chọn ra option cho giá trị tốt nhất (theo cách của Beam Search).
 Dưới đây là sơ đồ tổng quát về số lần tìm kiếm của mỗi bước của `Beam search`. Nếu `Beam width = 1` thì Beam search sẽ trở thành Greedy search.
 ![8](images/AttentionMechanism/8.png)
+
+## Refinements to Beam search
+Trong quá trình thực hiện Beam search việc xác định tính các xác suất có thể trả về rất nhỏ (đặc biệt với câu dài), việc lưu trữ có thể không chính xác. Do đó một cách đơn giản là lấy log sau đó đi tìm max của nó.
+![9](images/AttentionMechanism/9.png)
+
+Thường người ta cũng thực hiện `length normalization` đối với objective.
+![10](images/AttentionMechanism/10.png)
+Việc lựa chọn `Beam width` phụ thuộc vào các mục đích khác nhau có thể 3...10...100...
+
+Có một sô algorithm tìm chính xác hơn Beam search nhưng bù lại beam search rất nhanh (nguyên nhân không đảm bảo chính xác có thể do chỉ lấy mỗi lần B options nên có thể qua một số option mà sau này nó mới đem lại max probability).
