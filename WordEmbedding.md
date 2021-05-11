@@ -52,8 +52,7 @@ Mục đấy lấy ngẫu nhiên các `context word` trong câu và chọn ngẫ
 
 ### **Model**
 
-Đây chính là `Skip-grams model` do nó dự đoán `target word` khi biết `context word` mà không để ý đến các từ còn lại đứng bên trái hay bên phải (dự đoán middle word)
-![6](images/WordEmbedding/6.png)
+Đây chính là `Skip-grams model` do nó dự đoán `target word` khi biết `context word` mà không để ý đến các từ còn lại đứng bên trái hay bên phải (dự đoán middle word).
 Tuy nhiên có một số vấn đề với algorithm này: Việc tính toán hàm softmax rất tốn kém, có đến `vocab_size` phép tính cho 1 dự đoán (nguyên phép cộng bên dưới mẫu). Điều này gây khó khăn cho việc tăng kích thước vocabulary.
 
 Cần để ý thêm việc chọn `context word` do có một số từ sẽ xuất hiện nhiều lần hơn. Nếu chọn ngẫu nhiên thì khả năng những từ này xuất hiện cao hơn, đây là điều không mong muốn. Ta cần cả những từ ít thường xuyên hơn làm `context word` vì nhiều khi những từ này sẽ có thể đưa ra các dự đoán tốt hơn
@@ -62,4 +61,10 @@ Cần để ý thêm việc chọn `context word` do có một số từ sẽ xu
 
 ### Negative sampling 
 
-Bái trước đã học về `Skip-grams model` cho phép chúng ta xây dựng bài toán supervised learning. Nó map từ context word đến target word và cho phép học được `word embedding`. 
+Bài trước đã học về `Skip-grams model` cho phép chúng ta xây dựng bài toán supervised learning. Nó map từ context word đến target word và cho phép học được `word embedding`. Tuy nhiên `Skips-Grams model` ban đầu có vấn đề với hàm `softmax` do đó trong bài này sẽ đưa ra một algorithm mới (tương tự như Skip-Grams) nhưng có thay đổi một chút.
+
+**Xây dựng training set**
+
+Example là các cặp (context word, target word), label là `Positive/negative`. `Context word` được chọn ngẫu nhiên trong câu, đối với `Positive example` target word được chọn ngẫu nhiên trong câu đó trong khoảng cách vài từ cảu context word. Đối với `negative example` targer word được chọn ngẫu nhiên từ `vocabulary` `k = 5 - 10` for the small dataset, `k = 2 - 5` for the large dataset. 
+
+![8](images/WordEmbedding/8.png)
