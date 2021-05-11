@@ -33,3 +33,6 @@ Trong bài sau chúng ta sẽ tìm hiểu các học `embedding matrix`, đầu 
 
 Trong bài toán `language model` dự đoán từ tiếp theo khi biết các từ đứng trước đó. Đây là một algorithm cho phép chúng ta học được `embedding matrix`, chính là xác định được `word embedding`. 
 ![3](images/WordEmbedding/3.png)
+
+Đối với bài toán `language model` dự đoán 1 từ (`target word`) khi cho trước các từ phía trước (`context`) chúng ta có thể học được `word embedding`. Tuy nhiên nếu mục đích chính của chúng ta là học `word embedding` chúng ta có thể sử dụng các `context` khác như các từ sau nó, 1 từ trước nó hay 1 từ cách xa nó cũng có thể đem đến các word embedding có nhiều ý nghĩa. Đây chính là ý tưởng của **Skip Gram model**.
+![4](images/WordEmbedding/4.png)
