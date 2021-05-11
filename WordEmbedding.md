@@ -1,11 +1,12 @@
 # Word Embedding
 
-
 ## Word representation
-Nếu chỉ biểu diễn các word dạng one-hot vector thì `distance` giữa các từ là như nhau, không có sự khác biệt. Điều này sẽ không tốt nếu trong trường hợp chúng ta dự đoán từ.
-![1](images/WordEmbedding/1.png)
+Nếu chỉ biểu diễn các word dạng one-hot vector thì `distance` giữa các từ là như nhau, không có sự khác biệt. Điều này sẽ không tốt nếu trong trường hợp chúng ta dự đoán từ. Do đó chúng ta cần có cách biểu diễn các từ khác hợp lý hơn.
+![0](images/WordEmbedding/0.png)
 Ví dụ như hình trên nhận thấy `orange` và `apple` tương đồng thì có thể dễ dàng dự đoán từ phía sau `apple` là `juice`.
 
+Dưới đây là một cách biểu diễn các từ theo các features
+![1](images/WordEmbedding/1.png)
 Các từ được biểu diễn bằng vector, do đó độ tương đồng giữa chúng có thể được biểu diễn qua `cosine similarity`
 
 ## Embedding matrix
@@ -24,6 +25,11 @@ Có một cách để nhớ kích thước của `embedding matrix`: giống bê
 
 Trong bài sau chúng ta sẽ tìm hiểu các học `embedding matrix`, đầu tiên sẽ khởi tạo nó randomly.
 
-<font color='b'>:
 **Ghi nhớ**: Các cột của  embedding matrix chứa các embedding của các từ trong vocabulary.
 
+# Learning Word Embedding: Word2vec, Glove
+## Learning Word Embedding
+Đầu tiên chúng ta và đi vào thuật toán phức tạp hơn một chút để có `intuition` về word embedding. Sau này sẽ đi vào những cái đơn giản hơn nhưng vẫn hoạt động tốt. 
+
+Trong bài toán `language model` dự đoán từ tiếp theo khi biết các từ đứng trước đó. Đây là một algorithm cho phép chúng ta học được `embedding matrix`, chính là xác định được `word embedding`. 
+![3](images/WordEmbedding/3.png)
