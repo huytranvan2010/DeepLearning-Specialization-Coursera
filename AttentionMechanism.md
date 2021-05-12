@@ -62,3 +62,17 @@ Có 2 trường hợp có thể xảy ra đối với 1 example trong dev set b�
 ![13](images/AttentionMechanism/13.png)
 
 Tóm lại đi v ào dev set lấy các câu bị mistake lập thành bảng như bên trên để phân tích lỗi. Nếu thấy tỉ lệ lỗi do `Beam Search` thì tập trung vào nó (tằng Beam Width), ngược lại nếu vấn đề là RNN có thể xem xét các phương án như regularization, tăng training set, deeper network...
+
+
+## BLEU SCORE
+
+Đối với bài toán tạo text (ví dụ machine translation) một câu đầu vào có thể cho nhiều câu dịch tốt tương đương nhau. Làm sao có thể đánh giá độ chính xác của mô hình được. `BLEU score` đã ra đời để làm `evaluation metric`. Ý tưởng chính của nó là xem các từ được dịch so với các từ trong nguồn tham khảo (references) có xuất hiện nhiều không.
+
+Thử xem qua đối với unigram (1 từ)
+![14](images/AttentionMechanism/14.png)
+
+Thử xem qua đối với bigram (2 từ cạnh nhau)
+![15](images/AttentionMechanism/15.png)
+
+Phần này sẽ đưa vào công thức cho `Combines BLEU score`. Chú ý hệ số `BP` để tránh ảnh hưởng của các câu output ngắn. Do các câu output ngắn sẽ cho modified precision càng cao, tuy nhiên đây là điều không phải lúc nào chúng ta cũng mong muốn. Nếu câu càng ngắn thì chỉ số BP càng nhỏ.
+![16](images/AttentionMechanism/16.png)
