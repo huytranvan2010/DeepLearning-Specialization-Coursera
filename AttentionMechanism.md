@@ -76,3 +76,13 @@ Thử xem qua đối với bigram (2 từ cạnh nhau)
 
 Phần này sẽ đưa vào công thức cho `Combines BLEU score`. Chú ý hệ số `BP` để tránh ảnh hưởng của các câu output ngắn. Do các câu output ngắn sẽ cho modified precision càng cao, tuy nhiên đây là điều không phải lúc nào chúng ta cũng mong muốn. Nếu câu càng ngắn thì chỉ số BP càng nhỏ.
 ![16](images/AttentionMechanism/16.png)
+
+## Attention model
+
+Ở model encode-decoder phải lưu toàn bộ câu đầu vào, tạo encoding vector rôi mới dịch. Tuy nhiên đối với những câu dài thường cho `BLEU score` thấp. Attention model thì ngược lại tại mỗi thời điểm nó sẽ tập trung vào một phần nào đó của câu để dịch, attention model làm rất tốt cho những câu dài.
+![17](images/AttentionMechanism/16.png)
+
+![18](images/AttentionMechanism/19.png)
+
+Khi dịch từng từ, những từ gần hơn có thể sẽ có ảnh hưởng lớn hơn đến việc dịch đó. Ở đây dùng các weights để thể hiện sự ảnh hưởng đó.
+![19](images/AttentionMechanism/19.png)
