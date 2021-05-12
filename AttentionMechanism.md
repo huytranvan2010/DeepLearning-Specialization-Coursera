@@ -86,3 +86,10 @@ Phần này sẽ đưa vào công thức cho `Combines BLEU score`. Chú ý hệ
 
 Khi dịch từng từ, những từ gần hơn có thể sẽ có ảnh hưởng lớn hơn đến việc dịch đó. Ở đây dùng các weights để thể hiện sự ảnh hưởng đó.
 ![19](images/AttentionMechanism/19.png)
+
+## Attention model (Detail)
+
+![20](images/AttentionMechanism/20.png)
+
+Nhận thấy phần mạng RNN tạo từ dịch giống như mạng RNN thông thường với input là các ` context vectors`. Contexts vector được xác định dựa vào các attention và feature vectors ở đầu ra các time step của input sentences.
+![21](images/AttentionMechanism/21.png)
