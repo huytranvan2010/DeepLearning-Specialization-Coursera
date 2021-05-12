@@ -41,3 +41,24 @@ Thường người ta cũng thực hiện `length normalization` đối với ob
 Việc lựa chọn `Beam width` phụ thuộc vào các mục đích khác nhau có thể 3...10...100...
 
 Có một sô algorithm tìm chính xác hơn Beam search nhưng bù lại beam search rất nhanh (nguyên nhân không đảm bảo chính xác có thể do chỉ lấy mỗi lần B options nên có thể qua một số option mà sau này nó mới đem lại max probability).
+
+## Error analysis in Beam Search
+
+Beam search là approximate algorithm do đó nó có thể đưa ra một số mistake (một số câu dịch không đúng).
+
+Nhớ là NN model (sequence to sequence) có 2 thành phần chính là:
+- RNN
+- Beam search
+Việc đưa ra mistake có thể do trong hai thành phần trên. Error analysis sẽ giúp chúng ta xác định được thành phần gây ra lỗi và nên tập trung vào giải quyết nó (tìm đúng hướng để đi chứ không đi bừa).
+![11](images/AttentionMechanism/11.png)
+
+Error analysis có thể tóm tắt như sau. Đi vào `dev set` lấy các câu bị dịch sai (bài toán translation amchine), lấy luôn cả ground-truth của câu đó. Khi chúng ta đã có model rồi có thể tính được xác suất xảy ra câu dịch khi cho câu ban đầu: P(y*|x) - cho ground-truth, P(y_hat|x) - cho câu trong dev set bị mistake. Sau đó đi so sánh 2 giá trị đó.
+![12](images/AttentionMechanism/12.png)
+
+Có 2 trường hợp có thể xảy ra đối với 1 example trong dev set bị mistake:
+-  `P(y*|x) > P(y_hat|x)`. Điều này chứng tỏ RNN đang làm tốt còn Beam search lại chọn y_hat. Vấn đề nằm ở `Beam Search`
+- `P(y*|x) <= P(y_hat|x)`. y* là bản dịch tốt hơn mà RNN lại predict như vậy là không ổn rồi. Vấn đề nằm ở `RNN`.
+
+![13](images/AttentionMechanism/13.png)
+
+Tóm lại đi v ào dev set lấy các câu bị mistake lập thành bảng như bên trên để phân tích lỗi. Nếu thấy tỉ lệ lỗi do `Beam Search` thì tập trung vào nó (tằng Beam Width), ngược lại nếu vấn đề là RNN có thể xem xét các phương án như regularization, tăng training set, deeper network...
