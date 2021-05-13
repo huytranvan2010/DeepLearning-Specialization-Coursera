@@ -61,6 +61,8 @@ https://towardsdatascience.com/understanding-semantic-segmentation-with-unet-6be
 
 https://lmb.informatik.uni-freiburg.de/people/ronneber/u-net/
 
+https://test.neurohive.io/en/popular-networks/u-net/
+
 
 
 
