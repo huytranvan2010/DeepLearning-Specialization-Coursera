@@ -40,7 +40,7 @@ Trong `normal convolution` lất filter đặt lên trên input, nhân element-w
 ![34](images/AttentionMechanism/34.png)
 Mũi tên xanh chính là `transpose convolution`.
 
-Nếu ảnh đầu vào cảu mình là ảnh màu thì số channels đầu tiên là 2. Ở phần decoder chỗ áp dụng `convolution 1x1` số filter chính là số classes mình cần segment, cái này tùy thuộc vào từng bài toán cụ thể.
+Nếu ảnh đầu vào của mình là ảnh màu thì số channels đầu tiên là 3. Ở phần decoder chỗ áp dụng `convolution 1x1` số filter chính là số classes mình cần segment, cái này tùy thuộc vào từng bài toán cụ thể.
 
 ![35](images/AttentionMechanism/35.png)
 
