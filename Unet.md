@@ -38,6 +38,11 @@ Trong `normal convolution` lất filter đặt lên trên input, nhân element-w
 ## 2.2. Chi tiết
 
 ![34](images/AttentionMechanism/34.png)
+Mũi tên xanh chính là `transpose convolution`.
+
+Nếu ảnh đầu vào cảu mình là ảnh màu thì số channels đầu tiên là 2. Ở phần decoder chỗ áp dụng `convolution 1x1` số filter chính là số classes mình cần segment, cái này tùy thuộc vào từng bài toán cụ thể.
+
+![35](images/AttentionMechanism/35.png)
 
 ## Encoder
 Phần này bao gồm các lớp `Conv` và `MaxPooling` thông thường. Đi từ trên xuống dưới `width x height` giảm, còn `depth` tăng. `Depth` của output mỗi layer được ghi ở trên đỉnh hình chữ nhật. `width x height` được ghi dọc theo hình chữ nhật. 
@@ -53,5 +58,9 @@ Phần này ngược lại với encoder, làm tăng `width x height` và giảm
 
 # 3. Tài liệu tham khảo
 https://towardsdatascience.com/understanding-semantic-segmentation-with-unet-6be4f42d4b47
+
+https://lmb.informatik.uni-freiburg.de/people/ronneber/u-net/
+
+
 
 
