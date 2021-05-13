@@ -11,3 +11,13 @@ Mô hình từ RNN -> GRU -> LSTM ngày càng phức tạp và tăng độ tính
 ![4](images/Transfomer/4.png)
 
 ![5](images/Transfomer/5.png)
+
+# 3. Multi-Head Attention
+
+![6](images/Transfomer/6.png)
+![7](images/Transfomer/7.png)
+![8](images/Transfomer/8.png)
+# 4. Transformer Network
+
+![9](images/Transfomer/9.png)
+![10](images/Transfomer/10.png)
