@@ -103,3 +103,6 @@ Có thể áp dụng attention model vào để nhận diện giọng nói (tậ
 
 Ngoài ra còn có phupwng pháp CTC cost cho speech recognition cũng hoạt động khá hiệu quả.
 ![23](images/AttentionMechanism/23.png)
+
+## Trigger word detection
+![24](images/AttentionMechanism/24.png)
