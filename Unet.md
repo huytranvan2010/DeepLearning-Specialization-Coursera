@@ -33,7 +33,7 @@ Phần này ngược lại với encoder, làm tăng `width x height` và giảm
 
 Trong `normal convolution` lất filter đặt lên trên input, nhân element-wise rồi cộng lại. Trong `transpose convolution` sẽ đặt filter lên output.
 
-![28](images/AttentionMechanism/29.png)
+![28](images/AttentionMechanism/28.png)
 ![29](images/AttentionMechanism/29.png)
 ![30](images/AttentionMechanism/30.png)
 ![31](images/AttentionMechanism/31.png)
