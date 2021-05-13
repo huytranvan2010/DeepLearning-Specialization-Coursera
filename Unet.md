@@ -17,6 +17,28 @@ Mạng Unet đầu tiên được ứng dụng trong lĩnh vực y sinh. Kiến 
 Ý tưởng về kiến trúc mạng ban đầu sẽ như thế này:
 ![26](images/AttentionMechanism/26.png)
 
+## 2.1. Transpose convolution
+Đây là kiến thức quan trọng để hiểu được mạng U-net. 
+
+![27](images/AttentionMechanism/27.png)
+
+Trong `normal convolution` lất filter đặt lên trên input, nhân element-wise rồi cộng lại. Trong `transpose convolution` sẽ đặt filter lên output.
+
+`Padding`, `stride` đều được thực hiện trên output. Những chỗ overllap với nhau trong vùng của output được cộng dồn lại.
+
+![28](images/AttentionMechanism/28.png)
+![29](images/AttentionMechanism/29.png)
+![30](images/AttentionMechanism/30.png)
+![31](images/AttentionMechanism/31.png)
+![32](images/AttentionMechanism/32.png)
+
+**Intuition about U-Net**
+![33](images/AttentionMechanism/33.png)
+
+## 2.2. Chi tiết
+
+![anh](https://www.google.com/url?sa=i&url=https%3A%2F%2Flmb.informatik.uni-freiburg.de%2Fpeople%2Fronneber%2Fu-net%2F&psig=AOvVaw2RD8IFJLqQk5NEOxPztXYk&ust=1620983481713000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCICQz5aoxvACFQAAAAAdAAAAABAn)
+
 ## Encoder
 Phần này bao gồm các lớp `Conv` và `MaxPooling` thông thường. Đi từ trên xuống dưới `width x height` giảm, còn `depth` tăng. `Depth` của output mỗi layer được ghi ở trên đỉnh hình chữ nhật. `width x height` được ghi dọc theo hình chữ nhật. 
 
@@ -26,18 +48,9 @@ Phần này ngược lại với encoder, làm tăng `width x height` và giảm
 ## Loss function
 Đây là bài toán phân lớp cho các pixels nên loss function là tổng cross entropy của các pixels trong ảnh
 
-## Transpose convolution
-Đây là kiến thức quan trọng để hiểu được mạng U-net. 
 
-![27](images/AttentionMechanism/27.png)
 
-Trong `normal convolution` lất filter đặt lên trên input, nhân element-wise rồi cộng lại. Trong `transpose convolution` sẽ đặt filter lên output.
 
-![28](images/AttentionMechanism/28.png)
-![29](images/AttentionMechanism/29.png)
-![30](images/AttentionMechanism/30.png)
-![31](images/AttentionMechanism/31.png)
-![32](images/AttentionMechanism/32.png)
 # 3. Tài liệu tham khảo
 https://towardsdatascience.com/understanding-semantic-segmentation-with-unet-6be4f42d4b47
 
