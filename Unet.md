@@ -37,7 +37,7 @@ Trong `normal convolution` lất filter đặt lên trên input, nhân element-w
 
 ## 2.2. Chi tiết
 
-![34](images/AttentionMechanism/33.png)
+![34](images/AttentionMechanism/34.png)
 
 ## Encoder
 Phần này bao gồm các lớp `Conv` và `MaxPooling` thông thường. Đi từ trên xuống dưới `width x height` giảm, còn `depth` tăng. `Depth` của output mỗi layer được ghi ở trên đỉnh hình chữ nhật. `width x height` được ghi dọc theo hình chữ nhật. 
