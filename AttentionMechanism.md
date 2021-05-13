@@ -93,3 +93,13 @@ Khi dịch từng từ, những từ gần hơn có thể sẽ có ảnh hưởn
 
 Nhận thấy phần mạng RNN tạo từ dịch giống như mạng RNN thông thường với input là các ` context vectors`. Contexts vector được xác định dựa vào các attention và feature vectors ở đầu ra các time step của input sentences.
 ![21](images/AttentionMechanism/21.png)
+
+# Speech Recognition - Audio Data
+## Speech Recognition
+Có thể áp dụng sequence-to-sequence vào nhận diện giọng nói.
+
+Có thể áp dụng attention model vào để nhận diện giọng nói (tập trung vào một phần của input).
+![22](images/AttentionMechanism/22.png)
+
+Ngoài ra còn có phupwng pháp CTC cost cho speech recognition cũng hoạt động khá hiệu quả.
+![23](images/AttentionMechanism/23.png)
