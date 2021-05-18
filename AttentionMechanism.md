@@ -82,6 +82,8 @@ Phần này sẽ đưa vào công thức cho `Combines BLEU score`. Chú ý hệ
 ## Attention model
 
 Ở model encode-decoder phải lưu toàn bộ câu đầu vào, tạo encoding vector rôi mới dịch. Tuy nhiên đối với những câu dài thường cho `BLEU score` thấp. Attention model thì ngược lại tại mỗi thời điểm nó sẽ tập trung vào một phần nào đó của câu để dịch, attention model làm rất tốt cho những câu dài.
+
+Khi mọi người cố gắng hiểu bức tranh họ sẽ tập trung vào một vài phần nào đó của bức tranh để lấy được ý tưởng chính trong đó. Việc này rất có ý nghĩa trong `image captioning`
 ![17](images/AttentionMechanism/16.png)
 
 ![18](images/AttentionMechanism/19.png)
