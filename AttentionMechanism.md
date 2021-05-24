@@ -18,7 +18,9 @@ Việc chọn ngẫu nhiên câu dịch có thể đúng có thể sai (nghĩa h
 
 ### Vì sao không phải là Greedy Search
 
-Greedy search không phải lúc nào cũng cho kết quả tốt nhất, nhìn ví dụ trong hình sẽ thấy. Nếu `vocab_size=10000`, một câu dịch có 10 từ, khi đó sẽ có 10000^10 số câu có thể tạo ra. Việc tìm kiếm và thử số câu này là không tưởng, do đó cần tìm kiếm cách thích hợp để chọn được câu có thể chấp nhận được mà không quá chậm
+Greedy search không phải lúc nào cũng cho kết quả tốt nhất, nhìn ví dụ trong hình sẽ thấy. Greedy search sẽ chọn từ có xác suất lớn nhất, tuy nhiêu do trong training set có một số từ xuất hiện thường xuyên hơn so với các từ còn lại, do đó khả năng chúng được chọn cũng cao hơn trong một lần. Điều này có thể đưa đến những câu không đúng.
+
+Nếu `vocab_size=10000`, một câu dịch có 10 từ, khi đó sẽ có 10000^10 số câu có thể tạo ra. Việc tìm kiếm và thử số câu này là không tưởng, do đó cần tìm kiếm cách thích hợp để chọn được câu có thể chấp nhận được mà không quá chậm
 ![5](images/AttentionMechanism/5.png)
 
 ## Beam search
@@ -80,6 +82,8 @@ Phần này sẽ đưa vào công thức cho `Combines BLEU score`. Chú ý hệ
 ## Attention model
 
 Ở model encode-decoder phải lưu toàn bộ câu đầu vào, tạo encoding vector rôi mới dịch. Tuy nhiên đối với những câu dài thường cho `BLEU score` thấp. Attention model thì ngược lại tại mỗi thời điểm nó sẽ tập trung vào một phần nào đó của câu để dịch, attention model làm rất tốt cho những câu dài.
+
+Khi mọi người cố gắng hiểu bức tranh họ sẽ tập trung vào một vài phần nào đó của bức tranh để lấy được ý tưởng chính trong đó. Việc này rất có ý nghĩa trong `image captioning`
 ![17](images/AttentionMechanism/16.png)
 
 ![18](images/AttentionMechanism/19.png)
