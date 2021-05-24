@@ -46,6 +46,43 @@ Bên trái là công thức tổng quát so sánh computational cost của depth
 ![mo](images/MobileNet/mo9.png)
 Chú ý về cách biểu diễn. Filter ở phần depthwise và pointwise convolution không biểu diễn chính xác số channels (chỗ này chỉ biểu diễ tượng trưng thôi).
 
+# MobileNet Architecture
+
+Ý tưởng của MobileNet là các chỗ ngày xưa dùng `normal convolution` thì bây giờ chuyển sang `depthwise seperable convolution`. 
+MobileNet v1 với `13` lần lặp lại của `depthwise seperable convolution, theo sau đó là `Pooling, FC, Softmax`.
+
+![mo](images/MobileNet/mo10.png)
+
+MobileNet v2 có cải tiến hơn. Có 2 sự thay đổi chính:
+* Add residual connections
+* Có thêm expansion layer phía trước depthwise convolution và pointwise convolution (trong này gọi là `projection` vì một số lý do).
+
+Block của version 2 lặp lại 17 lần, mỗi block gọi là `bottle block`.
+![mo](images/MobileNet/mo11.png)
+
+## Mobilenet v2 Bottelneck
+![mo](images/MobileNet/mo12.png)
+Trong `bottelneck block` input vừa được truyền qua `residual connection` và được đưa vào `expansion layer` (chỗ này vẽ kết nối sang residual connection dễ gây hiểu nhầm).
+Expansion layer sử dụng Convolutional layer với filter `1 x 1 x n_C`, lúc này số filters thường lớn hơn số channels của input nên được gọi là `expansion layer`.
+
+![mo](images/MobileNet/mo13.png)
+Sau đó đi qua `depthwise convolution`. Ở đây có áp dụng padding='same' nên kích thước width và height không đổi.  
+
+![mo](images/MobileNet/mo14.png)
+Ở bước cuối là `pointwise convolution` hay còn gọi là `projection`. Nhìn vào hình sẽ thấy từ `n x n x 18` xuống `n x n x 3` nên gọi là `projection`. 
+
+**Bottleneck block** hoàn thành 2 nhiệm vụ: 
+* Sử dụng `expansion layer` nó tăng kích thước biểu diễn ở trong bottleneck block. Điều này cho phép NN học được `richer function` (thêm nhiều filters có thể học được các features khác nhau từ data). Tuy nhiên đoạn này rõ ràng có thêm một chút tính toán.
+* Tuy nhiên ngay sau `depthwise convolution` là `pointwise convolution` giúp giảm kích thước biểu diễn xuống, tính toán sẽ không bị quá nhiều.
+
+Chính vì 2 điều trên mà MobileNet v2 có hiệu năng tốt hơn MobileNet v1. 
+
+
+
+
+
+
+
 
 
 
