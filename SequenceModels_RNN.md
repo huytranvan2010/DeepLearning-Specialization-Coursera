@@ -97,6 +97,8 @@ Ví dụ a là vector 100 dimensions, X là vector 10000 dimensions. Khi đó ma
 , ma trận Wax có size là (100, 1000). Do vậy có thể stack 2 ma trận này theo hàng ngang được ma trận Wa. a<t-1> và x<t> được xếp theo chiều dọc với nhau do a<t-1> có size (100, 1), x<t> có size là (10000, 1)
 
 # 4. Backpropagation through a time
+Xem thêm về backpropagation
+https://mmuratarat.github.io/2019-02-07/bptt-of-rnn
 
 # 5. Different types of RNN
 
@@ -106,7 +108,83 @@ Ví dụ a là vector 100 dimensions, X là vector 10000 dimensions. Khi đó ma
 
 # 8. Vanishing gradients with RNNs
 
+Tham khảo thêm bài này
+https://towardsdatascience.com/the-exploding-and-vanishing-gradients-problem-in-time-series-6b87d558d22
+
+http://www.cs.toronto.edu/~rgrosse/courses/csc321_2017/readings/L15%20Exploding%20and%20Vanishing%20Gradients.pdf
+
+https://nickmccullum.com/python-deep-learning/vanishing-gradient-problem/
+
 # 9. Gated Recurrent Unit (GRU)
+
+GRU là phiên bản nâng cấp của RNN giúp tránh vanishing gradient.
+
+Trong RNN chuẩn hidden state được tính như sau:
+
+$$a^{<t>} = g(W_a[a^{<t-1>}, x^t] + b_a)$$
+
+ở đây đã rút gọn, có thể viết tường minh như sau:
+
+$$a^{<t>} = g(W_{aa}a^{<t-1>}, W_{ax}x^t + b_a)$$
+
+trong đó activation function $g$ thường dùng là hàm $tanh(x)$. Trong một số tài liệu thường thay $a$ bằng $h$ và gọi đó là hidden state.
+
+2 bài báo chính ảnh hưởng đến GRU là :
+https://arxiv.org/abs/1409.1259
+https://arxiv.org/abs/1412.3555
+
+**GRU (simplified)**
+
+**The *cat*, which already ate..., *was* full**. Trong câu này làm sao có thể nhớ được từ **cat** là danh từ số ít để điền **was**. GRU đưa vào varable mới $c$ gọi là **memory cell**. Gọi tên là như vậy vì bản chất của nó giúp ghi nhớ thông tin ở các time step phía trước. 
+
+Đối với time step $t$ ta có $c^{<t>} = a^{<t>}$. Giá trị của merory cell bằng với giá trị của activation function tại hidden layer của time step đó.
+
+Tại mỗi time step chúng ta sẽ quan tâm đến giá trị:
+
+$$\widetilde{c}^{<t>} = tanh(W_c[c^{<t-1>}, x^{<t>}] + b_c)$$
+
+$\widetilde{c}^{<t>} $ là ứng viên để thay thế $c^{<t>}$.
+
+Tương tự như các phần trước $W_c$ là matrix được hình thành từ việc xếp hàng ngang 2 matrix $W_{cc}$ và $W_{cx}$. $[c^{<t-1>}, x^{<t>}]$ được hình thành từ việc xếp dọc $c^{<t-1>}$ và $x^{<t>}$ do chúng đều là 2 vectore cột (nếu chỉ coi có 1 ví dụ - để hiểu đơn giản).
+
+Ý tưởng chính của GRU là gate:
+
+$$\Gamma_u = \sigma(W_u[c^{<t-1>}, x^{<t>}] + b_u) $$
+
+trong đó $\Gamma_u$ được gọi là updeted gate có giá trị thuộc $[0, 1]$ nó thể hiện cho việc có update hay không (ví dụ với vị trí một từ trong câu tính được $c^{<t>}$, khi đến một vị trí giá trị này được sử dụng vì chúng có thể liên quan đến nhau, lúc này ta sẽ update chúng và quên đi), $\sigma $ - hàm sigmoid.
+
+$$c^{<t>} = \Gamma_u \ast \widetilde{c}^{<t>} +  (1- \Gamma_u) \ast {c}^{<t-1>}$$
+
+- nếu $\Gamma_u = 1$ thì $c^{<t>} = \widetilde{c}^{<t>} $
+- nếu $\Gamma_u = 0$ thì $c^{<t>} = {c}^{<t-1>} $. Điều này có nghĩa rằng không update gì cả.
+
+Cùng xem GRU unit bên dưới để thấy rõ hơn. $c^{<t-1>}=a^{<t-1>}$ đi vào kết hợp với $x^{<t>}$ để tính được $\widetilde{c}^{<t>}$ và $\Gamma_u$. Kết hợp $c^{<t-1>}$, $\widetilde{c}^{<t>}$ và $\Gamma_u$ chúng ta tính được $c^{<t>}=a^{<t>}$ (tất nhiên tính luôn cả prediction nếu cần nếu chỉ có một hidden layer). Sơ đồ này khá là dễ hiểu.
+
+<img src="images/SequenceModels_RNN/0.png">
+
+Nhận thấy $c^{<t>}$, $\widetilde{c}^{<t>}$ và $\Gamma_u$ là vector có cùng shape (ví dụ cho 1 example đó). Nên nhớ trong phần tính $c^{<t>}$ chúng là có element-wise multiplication.
+
+**GRU (full)**
+
+$$\widetilde{c}^{<t>} = tanh(W_c[\Gamma_r \ast c^{<t-1>} + c^{<t-1>}, x^{<t>}] + b_c) ~~~~~~~~(1)$$
+
+$$\Gamma_u = \sigma(W_u[c^{<t-1>}, x^{<t>}] + b_u) $$
+
+$$\Gamma_r = \sigma(W_r[c^{<t-1>}, x^{<t>}] + b_r) $$
+
+$$c^{<t>} = \Gamma_u \ast \widetilde{c}^{<t>} +  (1- \Gamma_u) \ast {c}^{<t-1>}$$
+
+
+Trong (1) thêm $\Gamma_r\ast c^{<t-1>}$ để thể hiện ảnh hưởng của $c^{<t-1>}$ đến $\widetilde{c}^{<t>}$
+
+
+
+
+
+
+
+
+
 
 # 10. Long Short Tẻrm Memory (LSTM)
 Trong bài trước đã học về GRU (Gated recurrent unit) cho phép chúng ta có khoảng kết nối dài (tránh được vanishing gradient). Cũng có một loại unit khác làm điều này cũng rất tốt đó là LSTM unit. LSTM còn mạnh mẽ hơn cả GRU.
