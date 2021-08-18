@@ -177,19 +177,43 @@ $$c^{<t>} = \Gamma_u \ast \widetilde{c}^{<t>} +  (1- \Gamma_u) \ast {c}^{<t-1>}$
 
 Trong (1) thêm $\Gamma_r\ast c^{<t-1>}$ để thể hiện ảnh hưởng của $c^{<t-1>}$ đến $\widetilde{c}^{<t>}$
 
-
-
-
-
-
-
-
-
-
-# 10. Long Short Tẻrm Memory (LSTM)
+# 10. Long Short Term Memory (LSTM)
 Trong bài trước đã học về GRU (Gated recurrent unit) cho phép chúng ta có khoảng kết nối dài (tránh được vanishing gradient). Cũng có một loại unit khác làm điều này cũng rất tốt đó là LSTM unit. LSTM còn mạnh mẽ hơn cả GRU.
 ![17](images/SequenceModels_RNN/whymodel/17.png) 
 $$c^{t}$$ tidle là ứng viên để thay thế $$ c^{t} $$. Gamma u sẽ quyết định thay thế hay không. 
+
+Nhắc lại cho phần GRU:
+
+$$\widetilde{c}^{<t>} = tanh(W_c[\Gamma_r \ast c^{<t-1>} + c^{<t-1>}, x^{<t>}] + b_c) $$
+
+$$\Gamma_u = \sigma(W_u[c^{<t-1>}, x^{<t>}] + b_u) $$
+
+$$\Gamma_r = \sigma(W_r[c^{<t-1>}, x^{<t>}] + b_r) $$
+
+$$c^{<t>} = \Gamma_u \ast \widetilde{c}^{<t>} +  (1- \Gamma_u) \ast {c}^{<t-1>}$$
+
+$$a^{<t>} = c^{<t>}$$
+
+$\Gamma_u$ thể hiện việc có update hay không $\Gamma_u = 1$ là update, $\Gamma_u = 0$ là không update.
+
+LSTM là trường hợp tổng quát của GRU và mạnh mẽ hơn GRU:
+
+$$\widetilde{c}^{<t>} = tanh(W_c[a^{<t-1>}, x^{<t>}] + b_c) $$
+
+$$\Gamma_u = \sigma(W_u[a^{<t-1>}, x^{<t>}] + b_u) $$
+
+$$\Gamma_f = \sigma(W_f[a^{<t-1>}, x^{<t>}] + b_f) $$
+
+$$\Gamma_o = \sigma(W_o[a^{<t-1>}, x^{<t>}] + b_o) $$
+
+$$c^{<t>} = \Gamma_u \ast \widetilde{c}^{<t>} +  \Gamma_f \ast {c}^{<t-1>}$$
+
+$$a^{<t>} = \Gamma_o \ast tanh(c^{<t>})$$
+
+trong đó $\Gamma_u$ - update gate, $\Gamma_f$ - forget gate, $\Gamma_u$ - output gate
+
+
+https://colah.github.io/posts/2015-08-Understanding-LSTMs/ 
 
 LTMS mạnh mẽ hơn GRU một chút là và phiên bản tổng quát hơn GRU. GRU chỉ có Gamma u kiểm soát việc thay thế, trong LSTM có 2 đại lượng là Gamma u và Gamma f (forget) kiểm soát việc này. Ở LSTM này có thêm Gamma o (output)
 ![18](images/SequenceModels_RNN/whymodel/18.png)
@@ -202,7 +226,7 @@ LSTM có 3 gates (update, forget và output) phức tạp hơn so với GRU.
 
 Hãy cùng xem kết nối phía trên được tô đỏ.
 ![21](images/SequenceModels_RNN/whymodel/21.png)
-Đường màu đỏ này thể hiện các `update gate` và `forget gate` (`output gate` không có vì output gate quản lý đầu ra ở mỗi unit thôi. Nhìn vào hình ban đầu là thấy). Do đó nếu thực hiện một cách hợp lý hoàn toàn có thể cho gía trị c<3> lặp lại giá trị c<0> được. Đây chính là lý do khiến LSTM và GRU nhớ rất tốt giá trị trong thời gian dài - lưu giá trị trong memory cell (có thể tránh được vanishing gradient và có được sự ảnh hưởng dài - các từ ở xa có thể ảnh hưởng đến các từ khác).
+Đường màu đỏ này thể hiện các `update gate` và `forget gate` (`output gate` không có vì output gate quản lý đầu ra ở mỗi unit thôi. Nhìn vào hình ban đầu là thấy). Do đó nếu thực hiện một cách hợp lý hoàn toàn có thể cho giá trị c<3> lặp lại giá trị c<0> được. Đây chính là lý do khiến LSTM và GRU nhớ rất tốt giá trị trong thời gian dài - lưu giá trị trong memory cell (có thể tránh được vanishing gradient và có được sự ảnh hưởng dài - các từ ở xa có thể ảnh hưởng đến các từ khác).
 
 Có một số biến thể khác của LSTM, ví dụ thay vì các gate phụ thuộc vào mỗi a<t-1> và x<t>, có thể cho các gates phụ thuộc thêm vào  c<t-1> - previous memory cell value và người ta gọi đó là `peephole connection`. `Peepphole connection` có thể được đưa vào tính toán cả 3 gates.
 ![22](images/SequenceModels_RNN/whymodel/22.png)
@@ -211,7 +235,7 @@ Có một số biến thể khác của LSTM, ví dụ thay vì các gate phụ 
 - LSTM phức tạp hơn, có 3 gates nhưng mạnh mẽ hơn
 - GRU có 2 gates, đơn giản hơn và dễ xây dựng biggef network hơn
 
-Ngày nya mọi người hay sử dụng LSTM tuy nhiên gần đây một số nhóm có sử dụng GRU và đạt được những kết quả rất tốt.
+Ngày này mọi người hay sử dụng LSTM tuy nhiên gần đây một số nhóm có sử dụng GRU và đạt được những kết quả rất tốt.
 
 **Kết luận**: Từ mạng RNN cơ bản đầu vào là từ ở timestep <t> và information ở trước đó để dự đoán đầu ra, GRU và LTSM có bổ sung thêm memory cell để có thể lưu giá trị từ trước đó giúp tránh được vanishing gradient và giữ được ảnh hưởng xa của các từ (far dependencies).
 
