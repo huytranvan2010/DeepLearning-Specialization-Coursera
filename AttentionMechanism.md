@@ -79,9 +79,9 @@ Thử xem qua đối với bigram (2 từ cạnh nhau)
 Phần này sẽ đưa vào công thức cho `Combines BLEU score`. Chú ý hệ số `BP` để tránh ảnh hưởng của các câu output ngắn. Do các câu output ngắn sẽ cho modified precision càng cao, tuy nhiên đây là điều không phải lúc nào chúng ta cũng mong muốn. Nếu câu càng ngắn thì chỉ số BP càng nhỏ.
 ![16](images/AttentionMechanism/16.png)
 
-## Attention model
+# Attention model intuition
 
-Ở model encode-decoder phải lưu toàn bộ câu đầu vào, tạo encoding vector rôi mới dịch. Tuy nhiên đối với những câu dài thường cho `BLEU score` thấp. Attention model thì ngược lại tại mỗi thời điểm nó sẽ tập trung vào một phần nào đó của câu để dịch, attention model làm rất tốt cho những câu dài.
+Ở model encode-decoder phải lưu toàn bộ câu đầu vào, tạo encoding vector rồi mới dịch. Tuy nhiên đối với những câu dài thường cho `BLEU score` thấp. Attention model thì ngược lại tại mỗi thời điểm nó sẽ tập trung vào một phần nào đó của câu để dịch, attention model làm rất tốt cho những câu dài.
 
 Khi mọi người cố gắng hiểu bức tranh họ sẽ tập trung vào một vài phần nào đó của bức tranh để lấy được ý tưởng chính trong đó. Việc này rất có ý nghĩa trong `image captioning`
 ![17](images/AttentionMechanism/16.png)

@@ -81,6 +81,8 @@ Vấn đề này sẽ được giải quyết với Bi-directional Recurrent Neu
 ## Forward propagation
 ![13](images/SequenceModels_RNN/whymodel/13.png)
 
+<img src=images/SequenceModels_RNN/2.png>
+
 Thường cho $$ a^{<0>}=\vec{0} $$.
 Forward propagation
 ![14](images/SequenceModels_RNN/whymodel/14.png)
@@ -210,8 +212,12 @@ $$c^{<t>} = \Gamma_u \ast \widetilde{c}^{<t>} +  \Gamma_f \ast {c}^{<t-1>}$$
 
 $$a^{<t>} = \Gamma_o \ast tanh(c^{<t>})$$
 
-trong đó $\Gamma_u$ - update gate, $\Gamma_f$ - forget gate, $\Gamma_u$ - output gate
+trong đó $\Gamma_u$ - update gate, $\Gamma_f$ - forget gate, $\Gamma_u$ - output gate.
 
+$\Gamma_f = 0$ nó sẽ quên previous cell state. $\Gamma_f = 1$ nó sẽ nhớ previous cell state.
+
+>Chú ý: các gate phải thêm time step t
+>Một số tài liệu sử dụng $\Gamma_i$ thay cho $\Gamma_u$, có lẽ nên dùng $\Gamma_i$ để cho thống  nhất
 
 https://colah.github.io/posts/2015-08-Understanding-LSTMs/ 
 
@@ -231,6 +237,8 @@ Hãy cùng xem kết nối phía trên được tô đỏ.
 Có một số biến thể khác của LSTM, ví dụ thay vì các gate phụ thuộc vào mỗi a<t-1> và x<t>, có thể cho các gates phụ thuộc thêm vào  c<t-1> - previous memory cell value và người ta gọi đó là `peephole connection`. `Peepphole connection` có thể được đưa vào tính toán cả 3 gates.
 ![22](images/SequenceModels_RNN/whymodel/22.png)
 
+<img src=images/SequenceModels_RNN/3.png>
+
 **Chú ý**:
 - LSTM phức tạp hơn, có 3 gates nhưng mạnh mẽ hơn
 - GRU có 2 gates, đơn giản hơn và dễ xây dựng biggef network hơn
@@ -240,22 +248,42 @@ Ngày này mọi người hay sử dụng LSTM tuy nhiên gần đây một số
 **Kết luận**: Từ mạng RNN cơ bản đầu vào là từ ở timestep <t> và information ở trước đó để dự đoán đầu ra, GRU và LTSM có bổ sung thêm memory cell để có thể lưu giá trị từ trước đó giúp tránh được vanishing gradient và giữ được ảnh hưởng xa của các từ (far dependencies).
 
 # 11. Bidirectional RNN
-Trong các bài trước chúng ta đã thấy các building block của mạng RNN cơ bản và GRU, LSTM. Còn 2 ý tưởng có thể làm cho mạng mạnh mẽ hơn:
+Trong các bài trước chúng ta đã thấy các building block của mạng RNN cơ bản và GRU, LSTM. Còn 2 ý tưởng có thể làm cho mạng RNN mạnh mẽ hơn nữa đó là:
 - Bidirectional RNNs
 - Deep RNNs
 
-Để hiểu rõ hơn cùng xem mạng RNN với bài toán name entity recognition (tìm từ nào là một phần của tên người).
+Để hiểu rõ hơn cùng xem mạng RNN với bài toán name entity recognition. Ở bài toán này chúng ta dự đoán mỗi từ có phải là tên người không, phần activation của từ trước sẽ được sử dụng cho các từ tiếp theo (RNN thông thường).
+
 ![23](images/SequenceModels_RNN/whymodel/23.png)
+
 Nhìn vào ví dụ trên để xác định `Teddy` có phải là một phần của tên người hay không, việc nhìn vào 2 từ phía trước là không đủ. Đây chính là **unidirectional or forward directional RNN**. Nhận xét này đều đúng cho dù unit vuông là RNN, GRU hay LSTM. Tất cả các blocks này đều theo forward direction. Vậy `Bidirectional RNN` làm gì?
 
-Cùng xem ví dụ câu có 4 từ x<1>, x<2>, x<3>, x<4> và các forward recurrent components (các thành phần lặp lại theo chiều xuôi - có mũi tên trên đầu activation để chỉ chiều).
+Cùng xem ví dụ một câu có 4 từ $x^{<1>}$, $x^{<2>}$, $x^{<3>}$, $x^{<4>}$ và các forward recurrent components (các thành phần lặp lại theo chiều xuôi - có mũi tên trên đầu activation để chỉ chiều).
 
 ![24](images/SequenceModels_RNN/whymodel/24.png)
 
 Sau đó chúng ta sẽ thêm vào `backwrad recurrent layer` với chiều mũi tên ngược lại.
 ![25](images/SequenceModels_RNN/whymodel/25.png)
 
-Backward connections sẽ kết nối các backward hiddenr layer the chiều ngược lại. Network này xác định Acyclic graph. 
+Backward connections sẽ kết nối các backward hidden layer theo chiều ngược lại. Network này còn được gọi là Acyclic graph. 
+
+$$\hat{y}^{<t>} = g(W_y[\overrightarrow{a}^{<t>}, \overleftarrow{a}^{<t>}] + b_y)$$
+
+Ví dụ tính $\hat{y}^{<3>}$ chúng ta có thể có được thông tin từ $x^{<1>}$, $x^{<2>}$, $x^{<3>}$ và cả $x^{<4>}$ nữa.
+
+Nhước điểm của Bidirectional RNN là chúng ta cần toàn bộ sequence trước khi đưa ra dự đoán. Ví dụ khi xây dựng hệ thống speech recognition system khi triển khai phải đợi người nói nói hết cả câu mới dự đoán được (thực tế hơi khó).
+
+# Deep RNNs
+
+Đối với một số vấn đề phức tạp chúng ta có thể chồng nhiều lớp RNN lên nhau để được phiên bản sâu hơn của nó.
 
 
+Trước đó chúng ta chỉ mới tìm hiểu mạng NN có 1 hidden layer RNN. Bây giờ chúng ta tìm hiểu mạng NN có nhiều hidden layer RNN hơn. Đợt trước kí hiệu $a^{<0>}$ để chỉ đầu vào của time step $1$ từ time step $0$ (thực chất không có nhưng đưa vào cho giống các time step khác), tuy nhiên ở đây sẽ thêm số thứ tự hidden layer vào thành $a^{[1]<0>}$. Nhớ lại ngày xưa dùng $a^{[l]}$ để chỉ activation của layer $l$ và $a^{<t>}$ để chỉ activation ở time step $t$. Tổng quát ta có $a^{[l]<t>}$ cho hidden layer $l$ và time step $t$.
 
+<img src="images/SequenceModels_RNN/1.png">
+
+Hình bên trên có 3 hidden layer cho mạng RNN.
+
+$$a^{[2]<3>} = g(W_a^{[2]}[a^{[2]<2>}, a^{[1]<3>}] + b_a^{[2]})$$
+
+Với các mạng NN thông thường chúng ta có thể có nhiều hidden layer, tuy nhiên đối với RNN 3, 4 hidden layer có thể được coi là nhiều vì bản thân mỗi sequence đà dài rồi. Deep RNN train rất tốn tài nguyên nên thường không thấy nhiều hidden layers như vừa nói. 
