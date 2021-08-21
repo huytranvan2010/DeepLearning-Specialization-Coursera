@@ -161,6 +161,8 @@ http://mccormickml.com/2017/01/11/word2vec-tutorial-part-2-negative-sampling/
 
 https://arxiv.org/abs/1310.4546
 
+https://medium.com/@mnshonco/word2vec-negative-sampling-made-easy-9a587cb4695f
+
 **Xây dựng training set**
 
 Trong algorithm mới này chúng ta sẽ thay đổi các tạo training set so với Word2Vec. Ở đây example là các cặp **(context word, target word)**, label là **positive/negative**. Context word được chọn ngẫu nhiên trong câu:
@@ -198,31 +200,76 @@ $$p(w_i) = \frac{f(w_i)^{3/4}} {\sum_{j}^{10000} f(w_i)^{3/4}}$$
 
 ![10](images/WordEmbedding/10.png)
 
-## Glove Word vector
-Cái này không được sử dụng nhiều như Word2vec nhưng do sự đơn giản nên vẫn có một số nhóm hay dùng. 
+## GloVe - Glolab vector for word representation
+
+Phương pháp này không được sử dụng nhiều như Word2Vec nhưng do sự đơn giản nên vẫn có một số nhóm hay dùng. 
+
+http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.671.1743
+
+Trước đó mình lấy các cặp từ $(\text{context}, \text{target})$ bằng cách lấy 2 từ gần nhau trong đoạn text. Trong **GloVe** sẽ xác định $X_{ij}$ - số lần từ $w_j$ xuất hiện trong context (hoạt cảnh) của từ $w_i$. $w_i$ đóng vai trò của $\text{target}$, $w_j$ đóng vai trò của $\text{context}$. Phụ thuộc vào cách xác định target word và context word chúng ta có thể có $X_{ij} = X_{ji}$.
+- Nếu xác định target và context word trong khoảng window size $X_{ij} = X_{ji}$ có thể thỏa mãn
+- Nếu chọn context word luôn nằm ngay sau target word thì thường xảy ra $X_{ij} \neq X_{ji}$.
+
+Tuy nhiên theo mục đích của **GloVe algorithm** context và targte word xuất hiện gần nhau trong khoảng window size nào đó. 
+
 ![11](images/WordEmbedding/11.png)
 
-
+GloVe algrithm sẽ đi thực hiện optimize
 ![12](images/WordEmbedding/12.png)
 
 # Applications Using word embedding
-## Sentiment classification - phân loại thái độ 
+## Sentiment classification - phân loại thái độ/cảm xúc
 
-Sentiment classification: nhìn vào một đoạn text rồi phân biệt đó là nội dung tích cực hoặc tiêu cực. Một vấn đề ới sentiment classification là không có đủ label training set. Tuy nhiên với `word embedding` chúng ta có thể xây dựng bộ phân loại tốt được ngay cả khi có ít training set. 
+Sentiment classification: nhìn vào một đoạn text rồi phân biệt đó là nội dung tích cực hoặc tiêu cực. Một vấn đề với sentiment classification là không có đủ label training set. Tuy nhiên với word embedding chúng ta có thể xây dựng bộ phân loại tốt được ngay cả khi có ít training set được gán nhãn. 
 
 Nếu xây được bộ phân loại này có thể đánh giá được các comments để lại với một dịch vụ nào đó, sau đó có hướng điều chỉnh làm dịch vụ tốt hơn. 
 ![13](images/WordEmbedding/13.png)
 
-### Simple model
+**Simple model cho sentiment classification**
 
 Có thể dùng mô hình đơn giản như sau cho bài toán phân loại thái độ.
 ![14](images/WordEmbedding/14.png)
-`Word embedding` được học từ tập dữ liệu rất lớn. Ở trong mô hình này ma trận E đã biết rồi.s
-Tuy nhiên mô hình này không tính thứ tự của các từ mà lấy trung bình hoặc tổng các vector để đưa vào softmaxx layer, điều này có thể gây ra một số sai sót không muốn như ví dụ trong hình. Nếu lấy trung bình có rất nhiều từ `good` nhưng thực ra câu này lại là `negative`.
+Word embedding và embedding matrix được học từ tập dữ liệu rất lớn. Ở trong mô hình này ma trận E đã biết rồi. Lấy ont-hot vector của từng từ, ví dụ  $o_{8928}$ nhân với embedding matrix $E$ chúng ta được word embedding, ví dụ $e_{8928}$. Sau đó có thể gộp các word embedding lại hay lấy trung bình của tất cả các từ rồi qua một số FC layers để dự đoán.
 
-Thử ứng dụng mô hình RNN để giải quyết bào toán setiment classification xem sao.
+Tuy nhiên mô hình này không tính đến thứ tự của các từ mà lấy trung bình hoặc tổng các vector để đưa vào softmaxx layer, điều này có thể gây ra một số sai sót không muốn như ví dụ trong hình. Nếu lấy trung bình có rất nhiều từ *good* nhưng thực ra câu này lại là *negative*.
 
-### RNN for sentiment classification
+Để giái quyết vấn đề thứ tự các từ có thể áp dụng mô hình RNN cho bài toán setiment classification xem sao.
+
+**RNN for sentiment classification**
+
+<img src="https://www.researchgate.net/profile/Huy-Tien-Nguyen/publication/321259272/figure/fig2/AS:572716866433034@1513557749934/Illustration-of-our-LSTM-model-for-sentiment-classification-Each-word-is-transfered-to-a.png">
+
+<img src="https://storage.ning.com/topology/rest/1.0/file/get/7316181276?profile=original">
+
+Đây là bài toán *many-to-one*. Các từ qua embedding matrix sẽ được chuyển về word embedding rồi đưa vào mạng RNN. Có thể lấy đầu ra của cell cuối cùng để dự đoán hoặc cũng có thể tổng hợp các cell để đưa ra dự đoán cuối cùng.
+
 ![15](images/WordEmbedding/15.png)
 
 ## Debiasing Word Embeddings
+
+Trong bài này chúng ta sẽ tìm cách loại bỏ các bias trong word embedding (ví dụ một sô thiên vị về giói tính chẳng hạn). 
+
+https://medium.com/@dhartidhami/bias-in-word-embeddings-4ce8e4261c7
+
+**Các vấn đề bias trong word embedding**
+
+Trong word embedding chúng ta quan tâm đến bias về giới tính, dân tộc... Ví dụ fruit khi được biểu diễn bằng word embedding lại có phần xư hướng gần với male gender, điều này là không được bỏi AI, Machine Learning không có sự phân biệt về giới tính... 
+
+Ở trong word embedding chúng ta có thể học được cách suy luận tương tự như man:woman as king: queen. Tuy nhiên nếu *man:computer_progammer as woman:...*, phần .... là gì? Một số nhà nghiên cứu tìm thấy từ tương ứng là *homcooker*. Hay một ví dụ khác như *father: doctor* bọn họ tìm thấy *mother: nurse*. Như vậy có thể thấy word embedding có thể phản ánh giới tính, dân tộc, tuổi tác hoặc các thiên vị khác của text được sử dụng để train model. 
+
+Bởi vì các thuật toán ML có thể được sử dụng để đưa ra quyết định do đó chúng ta sẽ cố gắng loại bỏ các thiên vị đó. 
+
+- Đầu tiên chúng ta sẽ xác định **bias direction** mà chúng ta muốn loại bỏ, Làm cách nào để xác định bias direction với bias tương ứng.
+
+<img src="https://miro.medium.com/max/941/1*HL6DzliXpqE-Gc0BnuoSYg.png">
+
+Ví dụ chúng ta quan tâm đến *gender bias* chúng ta sẽ đi xác định $e_{he} - e_{she}$ bởi vì các từ này mang ý nghĩa giới tính khác nhau. Tương tự với $e_{male} - e_{female}$... Cuối cùng chúng ta lấy trung bình các giá trị, chúng ta sẽ có mường tượng về bias direction hay gender direction. Trong trường hợp này giả sử chỉ có 1 bias direction, còn lại 299 unbias direction.
+- Bước trung hòa, với mỗi từ không xác định (ví dụ không mang ý nghĩa về giới tính như ví dụ này), chiếu chúng để loại bỏ bias.
+
+Có một số từ mà bản thân nó đã mang ý nghĩa về giới tính như *grandmother*, *grandfather*... Một số từ khác như *babysister* hay *doctor* lại không mang ý nghĩa về giới tính và chúng ta muốn nó *neutral* khi được thể hiện bằng word embedding.  Để neutral giới tính những từ này chúng ta có thể chiếu chúng lên các **unbias direction** để loại bỏ các thành phần theo bias direction (loại bỏ các thành phần theo chiều ngang).
+
+- Equalize pairs (cân bằng lại các cặp). Ví dụ ở đây chúng ta có các cặp *grandmother* : *grandfather*, *girl* : *boy*... Chúng ta muốn sự khác nhau giữa các từ trong nhưng cặp này chỉ về mặt giới tính (gender). Tại sao chúng ta muốn vậy? Ví dụ như trên hình khoảng cách từ *babysister* đến *grandmother* nhỏ hơn khoảng cách từ *babysister* đến *grandfather*. Tuy nhiên điều này là không tốt có thể dẫn tới undessiable bias *grandmother* có xu hướng là *babysister* hơn *grandfather*. Do đó ở bước cân bằng này chúng ta muốn đô tương đồng hay khoảng của những từ như *grandmother* và *grandfather* đến nhưng từ không có liên quan đến giới tính như *babysister* hay *doctor* (neutral gender) là **như nhau**. Ở đây cần có sự dịch chuyển các từ (thay đổi word embedding) để đảm bảo điều đó.
+
+Một câu hỏi đặt ra ở bước 2 là làm thế nào chọn từ không mang ý nghĩa giới tính (*babysister*, *doctor*) để trung hòa bias direction? Tác giả bài báo đã train classifier để xác định các từ definitinal và not. Đa số các từ trong tiếng Anh không mang ý nghĩa về mặt giới tính.
+
+Một vấn đề nữa là số lượng pairs cần được cân bằng. Trong trường hợp gender số lượng đó cũng nhỏ. 

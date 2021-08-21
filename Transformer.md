@@ -1,4 +1,5 @@
-# 1. Intuition
+## Transformer Network Intuition
+
 Mô hình từ RNN -> GRU -> LSTM ngày càng phức tạp và tăng độ tính toán lên. Tuy nhiên để xác định được những unit phía sau cần phải xác định được uit phái trước. Transformer architectur ra đời giúp chúng ta thực hiện nhiều tính toán song song hay có thể xử lý cả câu tạo một thời điểm thay vì xử lý từng từ.
 ![1](images/Transfomer/1.png)
 
